@@ -1,0 +1,61 @@
+This file contains the mapping between original subject names and pseudonymised
+folder names. It is stored encrypted using OpenSSL AES-256 and is intended to be
+opened/edited ONLY via Vim without ever writing a plaintext mapping file to disk.
+
+ENCRYPTION METHOD
+-----------------
+OpenSSL symmetric encryption:
+- Cipher: AES-256-CBC
+- KDF: PBKDF2 (password-based)
+
+Encrypted file (keep long-term):
+  ../cipher/mapping.csv.enc
+
+
+OPEN + EDIT IN VIM (NO PLAINTEXT FILE CREATED)
+----------------------------------------------
+1) Open Vim (empty buffer):
+   vim
+
+2) Read/decrypt the encrypted mapping directly into the buffer:
+   :r !openssl enc -d -aes-256-cbc -pbkdf2 -in ../cipher/mapping.csv.enc
+
+   Notes:
+   - You will be prompted for the password.
+   - This loads the plaintext into Vim memory only.
+   - No plaintext mapping.csv is created on disk.
+
+3) Edit the mapping as needed.
+
+4) Save/re-encrypt directly back to the encrypted file (no plaintext file):
+   :w !openssl enc -aes-256-cbc -salt -pbkdf2 -out ../cipher/mapping.csv.enc
+
+   Notes:
+   - You will be prompted for the password again.
+   - This overwrites ../cipher/mapping.csv.enc with the newly encrypted content.
+
+
+OPTIONAL: READ-ONLY VIEW (NO SAVING)
+-----------------------------------
+If you only need to view the mapping:
+
+openssl enc -d -aes-256-cbc -pbkdf2 -in ../cipher/mapping.csv.enc | vim -
+
+Quit with:
+  :q
+
+
+IMPORTANT SAFETY NOTES
+----------------------
+- Do NOT decrypt to a file (e.g., mapping.csv) unless absolutely necessary.
+- Avoid copy/pasting sensitive rows into other apps or terminals.
+- Consider disabling Vim swap files for extra safety while viewing/editing
+  sensitive content. From inside Vim you can run:
+    :setlocal noswapfile nobackup nowritebackup
+  (This reduces the chance of decrypted content being written to disk.)
+
+PASSWORD WARNING
+----------------
+The password is NOT stored anywhere and cannot be recovered if lost.
+Keep it in a secure password manager.
+
