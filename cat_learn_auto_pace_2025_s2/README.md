@@ -1,9 +1,5 @@
 # cat_learn_auto_pace_2025_s2
 
-2025 Session 2 (Semester 2, MQ University): longitudinal
-at-home category learning with periodic lab visits (behavior
-+ EEG).
-
 ## Directory structure
 
 - **code/**
@@ -78,28 +74,6 @@ Day values are then re-ranked within-subject for a common plotting index.
 
 ---
 
-## Decision-bound modeling (DBM)
-
-DBMs are fit per **subject × day** with `block_size = 25` trials.
-
-Models:
-
-* Unidimensional bound on x (two side variants)
-* Unidimensional bound on y (two side variants)
-* General linear classifier (GLC; two side variants)
-
-Model selection:
-
-* Best model = minimum BIC per subject × day
-* Best model class collapsed to:
-
-  * **procedural** = GLC
-  * **rule-based** = unidimensional
-
-Results are cached in `../dbm_fits/dbm_results.csv` to avoid re-fitting on subsequent runs.
-
----
-
 ## Reproducibility notes
 
 * The at-home loader includes a hard-coded “day exclusion
@@ -111,9 +85,6 @@ Results are cached in `../dbm_fits/dbm_results.csv` to avoid re-fitting on subse
 
 At-home training (and related at-home probe sessions) are stored as trial-level CSV files.
 Each row corresponds to **one trial**.
-
-Example filename:
-- `sub_017_day_01_data.csv`
 
 ### Columns
 
